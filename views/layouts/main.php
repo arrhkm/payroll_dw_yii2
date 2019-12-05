@@ -43,11 +43,13 @@ AppAsset::register($this);
             ['label' => 'Home', 'url'=>['/site/index/']],
             //['label' => 'App Old', 'url' =>['<a href=www.google.com>']],
             ['label' => 'Employee', 'url' => ['#'], 'items'=>[
+                ['label' => 'Master', 'url' => ['/employee/']],
                 ['label' => 'Insetif Rresiko', 'url' => ['/iresiko/']],
                 ['label' => 'Foreman', 'url' => ['/foreman']],
                 ['label' => 'Anggota Foreman', 'url' => ['/childforeman']],
+                ['label' => 'Employee Rev', 'url' => ['/employee/emprev']],
             ]],
-
+            ['label' => 'Tarif Masakerja', 'url'=>['/tarifmasakerja/']],
            
             //['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
