@@ -2,21 +2,30 @@
 namespace app\models;
 
 use yii\base\Model;
-use yii\web\UploadedFile;
-use app\models\ImportForm;
 
-class FormPlusmin extends ImportForm
+
+class FormPlusmin extends Model
 {
-    public $id_period;
+    public $kd_periode;
+    public $excelFile;
 
     public function rules()
     {
         return [
             [['excelFile'], 'file', 'skipOnEmpty' => false, /*'extensions' => 'xls,xlsx,csv'*/],
-            //['id_period', 'require'],
-            [['id_period'], 'integer'],
+            
+            [['kd_periode'], 'string'],
         ];
     }
    
-
+    
+    public function upload()
+    {
+        if ($this->validate()) {
+            $this->excelFile->saveAs('upload_file/' . $this->excelFile->baseName . '.' . $this->excelFile->extension);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -50,9 +50,11 @@ AppAsset::register($this);
                 ['label' => 'Ubah Gaji', 'url' => ['/employee/ubahgaji']],
                 ['label' => 'Ubah Jamsostek', 'url' => ['/employee/ubahjamsostek']],
                 ['label' => 'Plusmin Gaji', 'url' => ['/plusmin/']],
+
                 
             ]],
             ['label' => 'Tarif Masakerja', 'url'=>['/tarifmasakerja/']],
+            ['label' => 'Periode', 'url'=>['/periode/']],
             ['label' => 'Penugasan', 'url'=>['#'], 'items'=>[
                 ['label' => 'Surat Perintah Lembur(SPL)', 'url'=>['/spl/']],
                 

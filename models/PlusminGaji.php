@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\commands\SmartIncrementKeyDb;
 use Yii;
 
 /**
@@ -20,6 +21,7 @@ class PlusminGaji extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    //use SmartIncrementKeyDb;
     public static function tableName()
     {
         return 'plusmin_gaji';
@@ -56,4 +58,14 @@ class PlusminGaji extends \yii\db\ActiveRecord
             'ket' => 'Ket',
         ];
     }
+
+    public static function getLastId($index_name='kd_plusmin')
+    {
+        //put your code here
+        $index = "MAX(".$index_name.")";
+        $lat=SELF::find()->SELECT([$index])->scalar();
+        if($lat){
+            return (int)$lat+1;
+        }else { return 1;}
+    } 
 }

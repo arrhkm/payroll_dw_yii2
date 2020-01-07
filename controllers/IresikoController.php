@@ -148,21 +148,7 @@ class IresikoController extends Controller
                 if(isset($data)){
                     $dataArray = [];                    
                     foreach ($data as $dt){
-                        //$id = Attlog::getLastId();
-                        //$dateTime = $dt['date_log']; //Yii::$app->formatter->asDatetime($dt['date_log'], 'php:Y-m-d H:i:s');
                         
-                        //$lastlog = Attlog::find()->where(['id_attmachine'=>$dt['id_attmachine']])->max('date_log');
-                       
-                        //if (strtotime($dateTime) < strtotime($lastlog) || in_array($dt['id_attmachine'], [7]) ){
-                            /*$Log = New Attlog();
-                            $Log->id = Attlog::getLastId();
-                            $Log->date_log = $dateTime;
-                            $Log->pin = $dt['pin'];                                                             
-                            $Log->id_attmachine= $dt['id_attmachine'];
-                            $Log->status = 100;
-                            $Log->verified = 100;
-                            $Log->save();
-                            */
                             $i_resiko = InsentifResiko::find()->where(['employee_emp_id'=>$dt['emp_id'], 'date_insentif'=>$dt['date_insentif']]);
                             if (!$i_resiko->exists()){
                                 $model_iresiko = New InsentifResiko();
