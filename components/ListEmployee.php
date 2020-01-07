@@ -13,7 +13,9 @@ use yii\db\conditions\InCondition;
 class ListEmployee  {
 
     public function getEmpList(){
-        $emp = Employee::find()->all();
+        $emp = Employee::find()
+        
+        ->all();
         return ArrayHelper::map($emp, 'emp_id', 'emp_name');
     }
 

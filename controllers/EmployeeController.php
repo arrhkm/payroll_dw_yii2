@@ -13,6 +13,7 @@ use app\models\ImportForm;
 use yii\web\UploadedFile;
 use moonland\phpexcel\Excel;
 //use yii\data\ArrayDataProvider;
+use app\models\UbahGaji;
 
 /**
  * EmployeeController implements the CRUD actions for Employee model.
@@ -62,64 +63,9 @@ class EmployeeController extends Controller
         ]);
     }
 
-    public function actionEmprev(){
-        $model = New ImportForm();
-        if (Yii::$app->request->isPost) {            
-            $model->excelFile = UploadedFile::getInstance($model, 'excelFile');            
-            if ($model->upload()) { // file is uploaded successfully  
-                $fileName = Yii::$app->basePath.'/web/upload_file/'.$model->excelFile->name;
-                $data = Excel::import($fileName, [
-                    'setFirstRecordAsKeys' => true, // if you want to set the keys of record column with first record, if it not set, the header with use the alphabet column on excel. 
-                    //'setIndexSheetByName' => true, // set this if your excel data with multiple worksheet, the index of array will be set with the sheet name. If this not set, the index will use numeric. 
-                    'getOnlySheet' => 'Sheet1', // you can set this property if you want to get the specified sheet from the excel data with multiple worksheet.
-                ]);                             
-                unlink($fileName);//Hapus file nya... 
-
-                if(isset($data)){
-                    $dataArray = [];
-                    $data_kosong = []; 
-                    $dt_gagal_save = [];                   
-                    foreach ($data as $dt){
-                        //$emp_id = $dt['lama'];
-                        $emp = Employee::find()->where(['emp_id'=>$dt['lama']]);
-                        if ($emp->exists()){
-                            $emp = $emp->one();
-                            $emp->emp_id = $dt['baru'];
-                            if ($emp->save()){
-                                array_push($dataArray, [
-                                    'emp_id_lama'=>$dt['lama'],
-                                    'emp_id_baru'=>$dt['baru'],                                                               
-                                ]);
-                            }else{
-                                array_push($dt_gagal_save, [
-                                    'emp_id_lama'=>$dt['lama'],
-                                    'emp_id_baru'=>$dt['baru'],                                                               
-                                ]);
-                            }                            
-
-                        }else {
-                            array_push($data_kosong, [
-                                'emp_id_lama'=>$dt['lama'],
-                                'emp_id_baru'=>$dt['baru'],
-                                                          
-                            ]);
-                        }                        
-                    }
-                    return $this->render('emprev',[
-                        'model'=>$model,
-                        'data'=>$dataArray,
-                        'data_kosong'=>$data_kosong,
-                        'data_gagal_save'=>$dt_gagal_save,
-                    ]);
-                }
-            }
-        }
-        return $this->render('emprev',[
-            'model'=>$model,
-            'data'=>$dataArray,
-        ]);
+   
         
-    }
+   
 
     /**
      * Creates a new Employee model.
@@ -171,6 +117,70 @@ class EmployeeController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionUbahgaji()
+    {
+        $model = new UbahGaji();
+
+        if ($model->load(Yii::$app->request->post())){
+            
+            $employee = Employee::find()->filterWhere(['gaji_pokok'=>$model->gaji_lama])->all();
+            if (isset($employee)){
+
+                foreach ($employee as $data) {
+                    $emp = $this->findModel($data['emp_id']);
+                    $emp->gaji_pokok = $model->gaji_baru;
+                    $emp->save();
+                }
+            }
+            return $this->render('ubahgaji', [
+                'employee'=>$employee, 
+                'model'=>$model,
+                    'update'=>'Ubah Gaji',
+            ]);
+              
+
+        } 
+
+        return $this->render('ubahgaji',[
+            'model'=>$model,
+            'update'=>'Ubah Gaji',
+        ]);
+
+    }
+
+    public function actionUbahjamsostek()
+    {
+        $model = new UbahGaji();
+
+        if ($model->load(Yii::$app->request->post())){
+            //if(Employee::find()->filterWhere(['gaji_pokok'=>$model->gaji_lama])->exist()){
+                $employee = Employee::find()->filterWhere(['pot_jamsos'=>$model->gaji_lama])->all();
+                if (isset($employee)){
+
+                    foreach ($employee as $data) {
+                        $emp = $this->findModel($data['emp_id']);
+                        $emp->pot_jamsos = $model->gaji_baru;
+                        $emp->save();
+                    }
+                }
+                return $this->render('ubahjamsostek', [
+                    'employee'=>$employee, 
+                    'model'=>$model,
+                    'update'=>'Ubah Jamsostek',
+                ]);
+            //}
+
+            
+
+        } 
+
+        return $this->render('ubahjamsostek',[
+            'model'=>$model,
+            'update'=>'Ubah Jamsostek',
+        ]);
+
     }
 
     /**

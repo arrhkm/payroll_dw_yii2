@@ -47,9 +47,15 @@ AppAsset::register($this);
                 ['label' => 'Insetif Rresiko', 'url' => ['/iresiko/']],
                 ['label' => 'Foreman', 'url' => ['/foreman']],
                 ['label' => 'Anggota Foreman', 'url' => ['/childforeman']],
-                ['label' => 'Employee Rev', 'url' => ['/employee/emprev']],
+                ['label' => 'Ubah Gaji', 'url' => ['/employee/ubahgaji']],
+                ['label' => 'Ubah Jamsostek', 'url' => ['/employee/ubahjamsostek']],
+                
             ]],
             ['label' => 'Tarif Masakerja', 'url'=>['/tarifmasakerja/']],
+            ['label' => 'Penugasan', 'url'=>['#'], 'items'=>[
+                ['label' => 'Surat Perintah Lembur(SPL)', 'url'=>['/spl/']],
+                
+            ]],
            
             //['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
