@@ -49,6 +49,7 @@ AppAsset::register($this);
                 ['label' => 'Anggota Foreman', 'url' => ['/childforeman']],
                 ['label' => 'Ubah Gaji', 'url' => ['/employee/ubahgaji']],
                 ['label' => 'Ubah Jamsostek', 'url' => ['/employee/ubahjamsostek']],
+                ['label' => 'Plusmin Gaji', 'url' => ['/plusmin/']],
                 
             ]],
             ['label' => 'Tarif Masakerja', 'url'=>['/tarifmasakerja/']],

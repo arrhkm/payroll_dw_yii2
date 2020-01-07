@@ -1,19 +1,23 @@
-<?php
+<?php 
 
-use Codeception\Lib\Generator\Shared\Classname;
-use kartik\select2\Select2;
 use yii\widgets\ActiveForm;
 use yii\grid\GridView;
+
+use kartik\select2\Select2;
 ?>
 
 <?php 
-$this->params['breadcrumbs'][] = ['label' => 'Import I Resiko', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Plus Min', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-echo " Fromat : (emp_id, vaue, date_indentif)";
+echo " Fromat : (emp_id, tgl_min, jml_plus, jml_min, ket)";
 ?>
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
-<?= $form->field($model, 'excelFile')->fileInput() ?>
+    <?= $form->field($model, 'id_period')->textInput(['maxlength' => true])->widget(Select2::className(),[
+            'data'=>$period_list,
+    ])?>
+
+    <?= $form->field($model, 'excelFile')->fileInput() ?>
 
     <button>Submit</button>
 
