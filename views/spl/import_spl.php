@@ -17,20 +17,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <thead>
       <tr>
         <th>emp_id</th>
-        <th>start_lembur</th>
-        <th>end_lembur</th>
+        <th>date_spl</th>
+        <th>overtime_value</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>P0027</td>
-        <td>2019-12-10 15:00:00</td>
-        <td>2019-12-10 20:00:00</td>
+        <td>2019-12-10</td>
+        <td>4</td>
       </tr>
       <tr>
         <td>P0027</td>
-        <td>2019-12-10 15:00:00</td>
-        <td>2019-12-10 20:00:00</td>
+        <td>2019-12-10</td>
+        <td>2</td>
       </tr>
     </tbody>
   </table>
@@ -50,8 +50,7 @@ if (isset($data)){
             'id',
             'emp_id',
             'date_spl',
-            'start_lembur',
-            'end_lembur',           
+            'overtime_value',         
         ],
     ]);
     

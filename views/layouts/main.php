@@ -54,6 +54,10 @@ AppAsset::register($this);
                 
             ]],
             ['label' => 'Tarif Masakerja', 'url'=>['/tarifmasakerja/']],
+            ['label' => 'Tunjangan', 'url'=>['#'], 'items'=>[
+                ['label' => 'Jenis Tunjangan', 'url'=>['/jenistunjangan/']],
+                ['label' => 'Insert Tunjangan', 'url'=>['/tunjangan/']],
+            ]],
             ['label' => 'Periode', 'url'=>['/periode/']],
             ['label' => 'Penugasan', 'url'=>['#'], 'items'=>[
                 ['label' => 'Surat Perintah Lembur(SPL)', 'url'=>['/spl/']],

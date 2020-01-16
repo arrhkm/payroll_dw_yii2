@@ -32,21 +32,24 @@ $this->params['breadcrumbs'][] = ['label' => 'SPL perday', 'url' => ['splperday'
 
             //'id',
             'employee_emp_id',
-            'employee.emp_name',
-            'date_spl',
-            'start_lembur',
-            'end_lembur',
             [
+                'attribute'=>'employee',
+                'value'=>'employee.emp_name',
+            ],
+                'date_spl',
+            'overtime_value',
+            //'start_lembur',
+            //'end_lembur',
+            /*[
                 'label'=>'Duration',
                 'value'=>function($model){
                     $leave = New Leave($model->start_lembur, $model->end_lembur);
                     return $leave->getDurationJam();
                 }
-            ],
+            ],*/
             //'so',
             //'nama_pekerjaan',
-            //'qty',
-            //'satuan',
+           
            
 
             ['class' => 'yii\grid\ActionColumn'],

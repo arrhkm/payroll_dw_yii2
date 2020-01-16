@@ -36,7 +36,7 @@ $Emp = New ListEmployee();
         ]
     ]) ?>
 
-    <?= $form->field($model, 'start_lembur')->widget(DateTimePicker::className(),[       
+    <?php /*= $form->field($model, 'start_lembur')->widget(DateTimePicker::className(),[       
         
         'name' => 'datetime_1',
        
@@ -48,9 +48,9 @@ $Emp = New ListEmployee();
             'autoclose' => true,
             'format' => 'yyyy-mm-dd hh:ii'
         ]
-    ]) ?>
+    ]) */?>
 
-    <?= $form->field($model, 'end_lembur')->widget(DateTimePicker::className(),[
+    <?php /* = $form->field($model, 'end_lembur')->widget(DateTimePicker::className(),[
          'name' => 'datetime_2',
          'options' => ['placeholder' => 'Select operating time ...'],
          'convertFormat' => false,
@@ -61,15 +61,15 @@ $Emp = New ListEmployee();
             'autoclose' => true,
             'format' => 'yyyy-mm-dd hh:ii'
         ]
-    ]) ?>
+    ]) */?>
 
     <?= $form->field($model, 'so')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'nama_pekerjaan')->textInput(['maxlength' => true]) ?>
+    <?php //= $form->field($model, 'nama_pekerjaan')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'qty')->textInput() ?>
+    <?= $form->field($model, 'overtime_value')->textInput() ?>
 
-    <?= $form->field($model, 'satuan')->textInput(['maxlength' => true]) ?>
+    <?php //= $form->field($model, 'satuan')->textInput(['maxlength' => true]) ?>
 
    
 

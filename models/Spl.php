@@ -14,7 +14,7 @@ use Yii;
  * @property string $end_lembur
  * @property string $so
  * @property string $nama_pekerjaan
- * @property int $qty
+ * @property int $overtime_value
  * @property string $satuan
  * @property string $employee_emp_id
  *
@@ -41,8 +41,8 @@ class Spl extends \yii\db\ActiveRecord
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIOINPUT] = ['start_lembur', 'end_lembur', 'id', 'employee_emp_id', 'date_spl', 'so', 'qty'];
-        $scenarios[self::SCENARIOCSV] =   ['start_lembur', 'end_lembur', 'id', 'employee_emp_id', 'date_spl', 'so', 'qty'];
+        $scenarios[self::SCENARIOINPUT] = ['id', 'employee_emp_id', 'date_spl', 'so', 'overtime_value'];
+        $scenarios[self::SCENARIOCSV] =   ['id', 'employee_emp_id', 'date_spl', 'so', 'overtime_value'];
         return $scenarios;
     }
 
@@ -51,14 +51,13 @@ class Spl extends \yii\db\ActiveRecord
         return [
             [['id', 'employee_emp_id', 'date_spl'], 'required'],//, 'on'=>'scenarioinput'],
             [['date_spl', 'employee_emp_id'], 'unique', 'targetAttribute' => ['date_spl', 'employee_emp_id']],//, 'on'=>self::SCENARIOINPUT],
-            [['id', 'qty'], 'integer'],
+            [['id', 'overtime_value'], 'integer'],
             [['date_spl', 'start_lembur', 'end_lembur'], 'safe'],
-            [['so', 'nama_pekerjaan', 'satuan'], 'string', 'max' => 45],
+            [['so', 'nama_pekerjaan'], 'string', 'max' => 45],
             [['employee_emp_id'], 'string', 'max' => 11],
-            ['start_lembur', 'validateStartLembur','on'=>self::SCENARIOINPUT],
-            ['end_lembur', 'validateEndLembur','on'=>self::SCENARIOINPUT],
-            //['start_lembur', 'on'=>self::SCENARIOCSV],
-            //['end_lembur', 'on'=>self::SCENARIOCSV],
+            //['start_lembur', 'validateStartLembur','on'=>self::SCENARIOINPUT],
+            //['end_lembur', 'validateEndLembur','on'=>self::SCENARIOINPUT],
+           
             [['id'], 'unique'],
             [['employee_emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['employee_emp_id' => 'emp_id']],
         ];
@@ -76,8 +75,7 @@ class Spl extends \yii\db\ActiveRecord
             'end_lembur' => 'End Lembur',
             'so' => 'So',
             'nama_pekerjaan' => 'Nama Pekerjaan',
-            'qty' => 'Qty',
-            'satuan' => 'Satuan',
+            'overtime_value' => 'Overtime','satuan' => 'Satuan',
             'employee_emp_id' => 'Employee Emp ID',
         ];
     }

@@ -86,7 +86,7 @@ class SplController extends Controller
                     $dataArray = [];                    
                    
                     foreach ($data as $dt){
-                        $start = date('Y-m-d',strtotime($dt['start_lembur']));
+                        $start = date('Y-m-d',strtotime($dt['date_spl']));
                         $spl = Spl::find()->where(['employee_emp_id'=>$dt['emp_id'], 'date_spl'=>$start]);
                         if (!$spl->exists()){
                             $model_spl = New Spl();
@@ -94,17 +94,19 @@ class SplController extends Controller
                             
                             $model_spl->id = $model_spl->getLastId();
                             $model_spl->employee_emp_id = $dt['emp_id'];
-                            $model_spl->date_spl= $start;
-                            $model_spl->start_lembur = $dt['start_lembur'];
-                            $model_spl->end_lembur = $dt['end_lembur'];                                
+                            $model_spl->date_spl= $dt['date_spl'];
+                            $model_spl->overtime_value = $dt['overtime_value'];
+                            //$model_spl->start_lembur = $dt['start_lembur'];
+                            //$model_spl->end_lembur = $dt['end_lembur'];                                
                             
                             //if ($model_spl->validate()){
                                 array_push($dataArray, [
                                     'id'=> $model_spl->id,
                                     'emp_id'=>$dt['emp_id'],
-                                    'date_spl'=>$start,
-                                    'start_lembur'=>$dt['start_lembur'],
-                                    'end_lembur'=>$dt['end_lembur'],                                
+                                    'date_spl'=>$dt['date_spl'],
+                                    'overtime_value'=>$dt['overtime_value']
+                                    //'start_lembur'=>$dt['start_lembur'],
+                                    //'end_lembur'=>$dt['end_lembur'],                                
                                 ]);
                                 $model_spl->save();
                                 //$lembur_id ++;
@@ -148,10 +150,10 @@ class SplController extends Controller
 
 
         if ($model->load(Yii::$app->request->post())) {
-            if (isset($model->start_lembur)){
+            /*if (isset($model->start_lembur)){
                 $date_start = date_create($model->start_lembur);
                 $model->date_spl = date_format($date_start, "Y-m-d");
-            }
+            }*/
             if ($model->validate()){
                 if ($model->save()){
 
