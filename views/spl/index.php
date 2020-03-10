@@ -47,12 +47,15 @@ $this->params['breadcrumbs'][] = ['label' => 'SPL perday', 'url' => ['splperday'
                     return $leave->getDurationJam();
                 }
             ],*/
-            //'so',
+            'so',
             //'nama_pekerjaan',
            
            
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template'=>'{delete}',
+            ],
         ],
     ]); ?>
 

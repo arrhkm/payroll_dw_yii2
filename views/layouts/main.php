@@ -59,10 +59,11 @@ AppAsset::register($this);
                 ['label' => 'Insert Tunjangan', 'url'=>['/tunjangan/']],
             ]],
             ['label' => 'Periode', 'url'=>['/periode/']],
-            ['label' => 'Penugasan', 'url'=>['#'], 'items'=>[
+            ['label' => 'S P L', 'url'=>['#'], 'items'=>[
                 ['label' => 'Surat Perintah Lembur(SPL)', 'url'=>['/spl/']],
                 
             ]],
+            ['label' => 'Sales Order', 'url'=>['/salesorder/']],
            
             //['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (

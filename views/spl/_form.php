@@ -4,8 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
 use app\components\ListEmployee;
+use app\models\SalesOrder;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 
 $Emp = New ListEmployee();
 
@@ -62,8 +64,14 @@ $Emp = New ListEmployee();
             'format' => 'yyyy-mm-dd hh:ii'
         ]
     ]) */?>
+    <?php 
+    $so = SalesOrder::find()->where(['is_active'=>1])->all();
+    $data_so = ArrayHelper::map($so, 'so_number','so_number');
 
-    <?= $form->field($model, 'so')->textInput(['maxlength' => true]) ?>
+    ?>
+    <?= $form->field($model, 'so')->widget(Select2::className(), [
+        'data'=>$data_so,
+    ]) ?>
 
     <?php //= $form->field($model, 'nama_pekerjaan')->textInput(['maxlength' => true]) ?>
 

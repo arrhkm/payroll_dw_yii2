@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\ChildForeman;
-use app\models\ChildForemanSearch;
+use app\models\SalesOrder;
+use app\models\SalesOrderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ChildforemanController implements the CRUD actions for ChildForeman model.
+ * SalesorderController implements the CRUD actions for SalesOrder model.
  */
-class ChildforemanController extends Controller
+class SalesorderController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,14 +30,14 @@ class ChildforemanController extends Controller
     }
 
     /**
-     * Lists all ChildForeman models.
+     * Lists all SalesOrder models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ChildForemanSearch();
+        $searchModel = new SalesOrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -45,7 +45,7 @@ class ChildforemanController extends Controller
     }
 
     /**
-     * Displays a single ChildForeman model.
+     * Displays a single SalesOrder model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,18 +58,16 @@ class ChildforemanController extends Controller
     }
 
     /**
-     * Creates a new ChildForeman model.
+     * Creates a new SalesOrder model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ChildForeman();
-        $model->id = $model->getLastId();
+        $model = new SalesOrder();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect(['view', 'id' => $model->id]);
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -78,7 +76,7 @@ class ChildforemanController extends Controller
     }
 
     /**
-     * Updates an existing ChildForeman model.
+     * Updates an existing SalesOrder model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -98,7 +96,7 @@ class ChildforemanController extends Controller
     }
 
     /**
-     * Deletes an existing ChildForeman model.
+     * Deletes an existing SalesOrder model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -112,17 +110,18 @@ class ChildforemanController extends Controller
     }
 
     /**
-     * Finds the ChildForeman model based on its primary key value.
+     * Finds the SalesOrder model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ChildForeman the loaded model
+     * @return SalesOrder the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ChildForeman::findOne($id)) !== null) {
+        if (($model = SalesOrder::findOne($id)) !== null) {
             return $model;
         }
+
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

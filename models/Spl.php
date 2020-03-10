@@ -52,6 +52,7 @@ class Spl extends \yii\db\ActiveRecord
             [['id', 'employee_emp_id', 'date_spl'], 'required'],//, 'on'=>'scenarioinput'],
             [['date_spl', 'employee_emp_id'], 'unique', 'targetAttribute' => ['date_spl', 'employee_emp_id']],//, 'on'=>self::SCENARIOINPUT],
             [['id', 'overtime_value'], 'integer'],
+            ['so', 'unique', 'targetAttribute' => ['so', 'date_spl']],
             [['date_spl', 'start_lembur', 'end_lembur'], 'safe'],
             [['so', 'nama_pekerjaan'], 'string', 'max' => 45],
             [['employee_emp_id'], 'string', 'max' => 11],
