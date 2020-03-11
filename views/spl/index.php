@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = ['label' => 'SPL perday', 'url' => ['splperday'
 
     <p>
         <?= Html::a('Create Spl', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Import Spl', ['importspl'], ['class' => 'btn btn-success']) ?>
+        <?php //= Html::a('Import Spl', ['importspl'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
