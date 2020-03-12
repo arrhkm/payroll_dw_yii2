@@ -84,11 +84,12 @@ class Spl extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    /*
+    
     public function getEmployee()
     {
         return $this->hasOne(Employee::className(), ['emp_id' => 'employee_emp_id']);
     }
+    /*
 
     public function validateStartLembur($attribute, $params){
         if ($this->date_spl != date('Y-m-d', strtotime($this->start_lembur))){

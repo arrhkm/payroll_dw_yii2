@@ -38,8 +38,7 @@ $this->params['breadcrumbs'][] = ['label' => 'SPL perday', 'url' => ['splperday'
             ],
                 'date_spl',
             'overtime_value',
-            //'start_lembur',
-            //'end_lembur',
+          
             /*[
                 'label'=>'Duration',
                 'value'=>function($model){
@@ -47,7 +46,7 @@ $this->params['breadcrumbs'][] = ['label' => 'SPL perday', 'url' => ['splperday'
                     return $leave->getDurationJam();
                 }
             ],*/
-            'so',
+            //'so',
             //'nama_pekerjaan',
            
            
