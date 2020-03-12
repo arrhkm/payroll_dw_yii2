@@ -66,6 +66,7 @@ class SalesorderController extends Controller
     {
         $model = new SalesOrder();
 
+        $model->id = $model->getLastId();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }

@@ -24,6 +24,10 @@ $Emp = New ListEmployee();
 
     <?= $form->field($model, 'employee_emp_id')->widget(Select2::className(),[
         'data'=>$Emp->getEmpList(),
+        'options' => ['placeholder' => 'Select a Employee ...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
     ]) ?>
 
     <?= $form->field($model, 'date_spl')->widget(DatePicker::className(),[
@@ -65,13 +69,18 @@ $Emp = New ListEmployee();
         ]
     ]) */?>
     <?php 
-    $so = SalesOrder::find()->where(['is_active'=>1])->all();
-    $data_so = ArrayHelper::map($so, 'so_number','so_number');
+    //$so = SalesOrder::find()->where(['is_active'=>1])->all();
+    //$data_so = ArrayHelper::map($so, 'so_number','so_number');
 
     ?>
-    <?= $form->field($model, 'so')->widget(Select2::className(), [
+    <?php /*= $form->field($model, 'so')->widget(Select2::className(), [
         'data'=>$data_so,
-    ]) ?>
+        'options' => ['placeholder' => 'Select a SO ...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+
+    ]) */?>
 
     <?php //= $form->field($model, 'nama_pekerjaan')->textInput(['maxlength' => true]) ?>
 

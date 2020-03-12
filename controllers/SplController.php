@@ -143,8 +143,8 @@ class SplController extends Controller
 
     public function actionCreate()
     {
-        $model = new Spl(['scenario'=>Spl::SCENARIOINPUT]);
-        //$model->scenario = Spl::SCENARIOINPUT;
+        //$model = new Spl(['scenario'=>Spl::SCENARIOINPUT]);
+        $model = new Spl();
         $model->id = $model->getLastId();
 
 

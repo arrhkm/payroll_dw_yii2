@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\commands\SmartIncrementKeyDb;
 use Yii;
 
 /**
@@ -15,6 +16,7 @@ use Yii;
  */
 class SalesOrder extends \yii\db\ActiveRecord
 {
+    use SmartIncrementKeyDb;
     /**
      * {@inheritdoc}
      */
@@ -32,10 +34,9 @@ class SalesOrder extends \yii\db\ActiveRecord
             [['id'], 'required'],
             [['id', 'is_active'], 'integer'],
             //[['is_active'], 'boolean'],
-            [['so_number', 'so_name'], 'string', 'max' => 45],
+            [['so_number', 'so_name'], 'string', 'max' => 255],
             [['dscription'], 'string', 'max' => 255],
             [['so_number'], 'unique'],
-            [['so_name'], 'unique'],
             [['id'], 'unique'],
         ];
     }

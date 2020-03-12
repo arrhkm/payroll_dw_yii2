@@ -52,9 +52,9 @@ class Spl extends \yii\db\ActiveRecord
             [['id', 'employee_emp_id', 'date_spl'], 'required'],//, 'on'=>'scenarioinput'],
             [['date_spl', 'employee_emp_id'], 'unique', 'targetAttribute' => ['date_spl', 'employee_emp_id']],//, 'on'=>self::SCENARIOINPUT],
             [['id', 'overtime_value'], 'integer'],
-            ['so', 'unique', 'targetAttribute' => ['so', 'date_spl']],
+            //['so', 'unique', 'targetAttribute' => ['so', 'date_spl']],
             [['date_spl', 'start_lembur', 'end_lembur'], 'safe'],
-            [['so', 'nama_pekerjaan'], 'string', 'max' => 45],
+            [['so', 'nama_pekerjaan'], 'string', 'max' => 255],
             [['employee_emp_id'], 'string', 'max' => 11],
             //['start_lembur', 'validateStartLembur','on'=>self::SCENARIOINPUT],
             //['end_lembur', 'validateEndLembur','on'=>self::SCENARIOINPUT],
@@ -76,7 +76,7 @@ class Spl extends \yii\db\ActiveRecord
             'end_lembur' => 'End Lembur',
             'so' => 'So',
             'nama_pekerjaan' => 'Nama Pekerjaan',
-            'overtime_value' => 'Overtime','satuan' => 'Satuan',
+            'overtime_value' => 'Overtime (dalam Jam)',
             'employee_emp_id' => 'Employee Emp ID',
         ];
     }
@@ -84,6 +84,7 @@ class Spl extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    /*
     public function getEmployee()
     {
         return $this->hasOne(Employee::className(), ['emp_id' => 'employee_emp_id']);
@@ -105,6 +106,6 @@ class Spl extends \yii\db\ActiveRecord
         }
         
     }
-    
+    */
     
 }

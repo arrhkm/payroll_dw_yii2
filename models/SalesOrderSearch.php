@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\commands\SmartIncrementKeyDb;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\SalesOrder;
@@ -11,6 +12,7 @@ use app\models\SalesOrder;
  */
 class SalesOrderSearch extends SalesOrder
 {
+   
     /**
      * {@inheritdoc}
      */
