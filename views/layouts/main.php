@@ -50,6 +50,7 @@ AppAsset::register($this);
                 ['label' => 'Ubah Gaji', 'url' => ['/employee/ubahgaji']],
                 ['label' => 'Ubah Jamsostek', 'url' => ['/employee/ubahjamsostek']],
                 ['label' => 'Plusmin Gaji', 'url' => ['/plusmin/']],
+                
 
                 
             ]],
@@ -62,6 +63,10 @@ AppAsset::register($this);
             ['label' => 'S P L', 'url'=>['#'], 'items'=>[
                 ['label' => 'Surat Perintah Lembur(SPL)', 'url'=>['/spl/']],
                 
+            ]],
+            ['label' => 'Attendance', 'url'=>['#'], 'items'=>[
+                ['label' => 'Machine Att', 'url'=>['/machineatt']],
+                ['label' => 'Integrasi', 'url'=>['/machineatt/integrasi']],
             ]],
             ['label' => 'Sales Order', 'url'=>['/salesorder/']],
            

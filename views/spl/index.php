@@ -36,9 +36,9 @@ $this->params['breadcrumbs'][] = ['label' => 'SPL perday', 'url' => ['splperday'
                 'attribute'=>'employee',
                 'value'=>'employee.emp_name',
             ],
-                'date_spl',
+            'date_spl',
             'overtime_value',
-          
+            
             /*[
                 'label'=>'Duration',
                 'value'=>function($model){
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = ['label' => 'SPL perday', 'url' => ['splperday'
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template'=>'{delete}',
+                'template'=>'{view} {delete}',
             ],
         ],
     ]); ?>

@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use yii\helpers\ArrayHelper;
+
 /**
  * SalesorderController implements the CRUD actions for SalesOrder model.
  */
@@ -65,7 +67,8 @@ class SalesorderController extends Controller
     public function actionCreate()
     {
         $model = new SalesOrder();
-
+        
+       
         $model->id = $model->getLastId();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -73,6 +76,7 @@ class SalesorderController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'data_so'=>$data_so,
         ]);
     }
 

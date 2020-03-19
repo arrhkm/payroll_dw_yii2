@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\commands\SmartIncrementKeyDb;
 use Yii;
 use app\models\Periode;
 use app\models\PeriodeSearch;
@@ -65,8 +66,11 @@ class PeriodeController extends Controller
     public function actionCreate()
     {
         $model = new Periode();
+        $model->kd_periode = $model->getLastId($index_name='kd_periode');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->nama_periode= $model->tgl_akhir;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->kd_periode]);
         }
 
@@ -86,7 +90,9 @@ class PeriodeController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->nama_periode= $model->tgl_akhir;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->kd_periode]);
         }
 

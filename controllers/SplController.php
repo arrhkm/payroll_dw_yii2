@@ -13,6 +13,10 @@ use app\models\ImportForm;
 use yii\web\UploadedFile;
 use moonland\phpexcel\Excel;
 use yii\data\ArrayDataProvider;
+use app\models\SalesOrder;
+use app\models\SplDetil;
+use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 /**
  * SplController implements the CRUD actions for Spl model.
@@ -57,9 +61,52 @@ class SplController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        $model = $this->findModel($id);
+        $x = $model->splDetils;
+
+        
+        $model_spl_detil = New SplDetil();
+        $model_spl_detil->id = $model_spl_detil->getLastId();
+        $model_spl_detil->spl_id = $id;
+
+        $query = New Query();
+        $provider = new ArrayDataProvider([
+            'allModels' => $query->from('spl_detil')->where(['spl_id'=>$id])->all(),
+           
         ]);
+        if ($model_spl_detil->load(Yii::$app->request->post()) && $model_spl_detil->validate()){
+            $jam = 0;
+            foreach ($model->splDetils as $rowdetil){
+                $jam + $rowdetil['jam'];
+            }
+            //if ($jam < $model_spl_detil->jam){
+                //$model_spl_detil->validateJam('jam', 10);
+            //}else {
+
+            $model_spl_detil->save();
+            //}
+            return $this->render('view', [
+                'model' => $model,
+                'model_spl_detil'=>$model_spl_detil,
+                'list_so'=>$this->getListSo(),
+                'provider'=>$provider,
+                'hkm'=>$model->splDetils,
+            ]);
+        }
+        return $this->render('view', [
+            'model' => $model,
+            'model_spl_detil'=>$model_spl_detil,
+            'list_so'=>$this->getListSo(),
+            'provider'=>$provider,
+            'hkm' =>$model->splDetils,
+        ]);
+    }
+
+    public function actionDelspldetil($id){
+        $spl_detil = SplDetil::findOne($id);
+        $id_spl = $spl_detil->spl_id;
+        $spl_detil->delete();
+        return $this->redirect(['view','id'=>$id_spl]);
     }
 
     /**
@@ -141,13 +188,41 @@ class SplController extends Controller
         ]);
     }
 
+    public function getListSo(){
+        $so = SalesOrder::find()->where(['is_active'=>1])->all();
+        $so_modif = ArrayHelper::toArray($so, [
+            'app\models\SalesOrder'=>[
+                'so_number',
+                'so_num_name'=>function($so){
+                    return $so->so_number." # ".$so->so_name;
+                }
+            ] 
+        ] );
+        
+        return ArrayHelper::map($so_modif, 'so_number','so_num_name');
+    }
+
     public function actionCreate()
     {
+        //LIST SO        
+        /*
+        $so = SalesOrder::find()->where(['is_active'=>1])->all();
+        $so_modif = ArrayHelper::toArray($so, [
+            'app\models\SalesOrder'=>[
+                'so_number',
+                'so_num_name'=>function($so){
+                    return $so->so_number." # ".$so->so_name;
+                }
+            ] 
+        ] );
+        $data_so = ArrayHelper::map($so_modif, 'so_number','so_num_name');*/
+        $data_so = $this->getListSo();
+        //-------------
+
+
         //$model = new Spl(['scenario'=>Spl::SCENARIOINPUT]);
         $model = new Spl();
         $model->id = $model->getLastId();
-
-
 
         if ($model->load(Yii::$app->request->post())) {
             /*if (isset($model->start_lembur)){
@@ -156,20 +231,26 @@ class SplController extends Controller
             }*/
             if ($model->validate()){
                 if ($model->save()){
+                    //$model_spl_detil = New SplDetil();
 
-                    return $this->redirect(['view', 'id' => $model->id]);
+                    return $this->redirect(['view',
+                        'id' => $model->id,
+                        //'model_spl_detil'=>$model_spl_detil,
+                    ]);
                 }
-            }else {
+            } /*else {
                 return $this->render('create', [
                     'model' => $model,
+                    'data_so'=>$so,
                 ]);
-            }
+            }*/
             
             
         }
 
         return $this->render('create', [
             'model' => $model,
+            'data_so'=>$data_so,
         ]);
     }
 
@@ -183,7 +264,7 @@ class SplController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->setScenario('scenarioinput');
+        //$model->setScenario('scenarioinput');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

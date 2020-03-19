@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\datetime\DateTimePicker;
 use app\components\ListEmployee;
-use app\models\SalesOrder;
+
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
-use yii\helpers\ArrayHelper;
+
 
 $Emp = New ListEmployee();
 
@@ -25,14 +25,14 @@ $Emp = New ListEmployee();
     <?= $form->field($model, 'employee_emp_id')->widget(Select2::className(),[
         'data'=>$Emp->getEmpList(),
         'options' => ['placeholder' => 'Select a Employee ...'],
-        'pluginOptions' => [
+        'pluginOptions' => [            
             'allowClear' => true
         ],
     ]) ?>
 
     <?= $form->field($model, 'date_spl')->widget(DatePicker::className(),[
-        'name'=>'date_spl',
-        'type' => DatePicker::TYPE_INPUT,
+        //'name'=>'date_spl',
+        //'type' => DatePicker::TYPE_INPUT,
         'options'=>['placeholder'=>'Select Date...'],
         'convertFormat'=>true,
         'pluginOptions'=>[
@@ -69,18 +69,12 @@ $Emp = New ListEmployee();
         ]
     ]) */?>
     <?php 
-    //$so = SalesOrder::find()->where(['is_active'=>1])->all();
-    //$data_so = ArrayHelper::map($so, 'so_number','so_number');
-
+    /*
+    $so = SalesOrder::find()->where(['is_active'=>1])->all();
+    $data_so = ArrayHelper::map($so, 'so_number','so_number');
+            */
     ?>
-    <?php /*= $form->field($model, 'so')->widget(Select2::className(), [
-        'data'=>$data_so,
-        'options' => ['placeholder' => 'Select a SO ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-
-    ]) */?>
+   
 
     <?php //= $form->field($model, 'nama_pekerjaan')->textInput(['maxlength' => true]) ?>
 

@@ -10,22 +10,22 @@ use Yii;
  *
  * @property int $id
  * @property string $date_spl
- * @property int $overtime_value
  * @property string $start_lembur
  * @property string $end_lembur
  * @property string $so
  * @property string $nama_pekerjaan
+ * @property int $overtime_value
+ * @property string $satuan
  * @property string $employee_emp_id
  *
  * @property Employee $employeeEmp
- * @property SplDetil[] $splDetils
  */
 class Spl extends \yii\db\ActiveRecord
 {
+    use SmartIncrementKeyDb;
     /**
      * {@inheritdoc}
      */
-    use SmartIncrementKeyDb;
     public static function tableName()
     {
         return 'spl';
@@ -34,18 +34,31 @@ class Spl extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
+    const SCENARIOINPUT = 'scenarioinput';
+    const SCENARIOCSV = 'scenariocsv';
+    
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIOINPUT] = ['id', 'employee_emp_id', 'date_spl', 'so', 'overtime_value'];
+        $scenarios[self::SCENARIOCSV] =   ['id', 'employee_emp_id', 'date_spl', 'so', 'overtime_value'];
+        return $scenarios;
+    }
+
     public function rules()
     {
         return [
             [['id', 'employee_emp_id', 'date_spl'], 'required'],//, 'on'=>'scenarioinput'],
+            [['date_spl', 'employee_emp_id'], 'unique', 'targetAttribute' => ['date_spl', 'employee_emp_id']],//, 'on'=>self::SCENARIOINPUT],
             [['id', 'overtime_value'], 'integer'],
-            [['date_spl', 'employee_emp_id'], 'unique', 'targetAttribute' => ['date_spl', 'employee_emp_id']],
+          
             [['date_spl', 'start_lembur', 'end_lembur'], 'safe'],
-            [['so'], 'string', 'max' => 45],
-            [['nama_pekerjaan'], 'string', 'max' => 255],
+            [['so', 'nama_pekerjaan'], 'string', 'max' => 255],
             [['employee_emp_id'], 'string', 'max' => 11],
-            [['id'], 'unique'],
             ['overtime_value', 'validateJamOt'],
+           
+            [['id'], 'unique'],
             [['employee_emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['employee_emp_id' => 'emp_id']],
         ];
     }
@@ -58,11 +71,11 @@ class Spl extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'date_spl' => 'Date Spl',
-            'overtime_value' => 'Overtime Value',
             'start_lembur' => 'Start Lembur',
             'end_lembur' => 'End Lembur',
             'so' => 'So',
             'nama_pekerjaan' => 'Nama Pekerjaan',
+            'overtime_value' => 'Overtime (dalam Jam)',
             'employee_emp_id' => 'Employee Emp ID',
         ];
     }
@@ -70,17 +83,10 @@ class Spl extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    
     public function getEmployee()
     {
         return $this->hasOne(Employee::className(), ['emp_id' => 'employee_emp_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSplDetils()
-    {
-        return $this->hasMany(SplDetil::className(), ['spl_id' => 'id']);
     }
 
     public function validateJamOt($attribute, $params){
@@ -88,11 +94,5 @@ class Spl extends \yii\db\ActiveRecord
             $this->addError($attribute, 'Jam melebihi Limit Lembur');
         }
     }
-
-    public function getEmpty(){     
-        if ( count($this->splDetils) > 0) {
-            return FALSE;
-        }
-        return TRUE;
-    }
+    
 }

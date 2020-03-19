@@ -51,6 +51,9 @@ $config = [
             ],
         ],
         */
+        /*'hkmlib'=>[
+            'class'=>'app\components\hkm\HkmLib',
+        ],*/
     ],
     'params' => $params,
 ];

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\commands\SmartIncrementKeyDb;
 use Yii;
 
 /**
@@ -15,6 +16,16 @@ use Yii;
  */
 class Periode extends \yii\db\ActiveRecord
 {
+    use SmartIncrementKeyDb;
+    /*public static function getLastId($index_name='kd_periode')
+    {
+        //put your code here
+        $index = "MAX(".$index_name.")";
+        $lat=SELF::find()->SELECT([$index])->scalar();
+        if($lat){
+            return (int)$lat+1;
+        }else { return 1;}
+    }*/ 
     /**
      * {@inheritdoc}
      */
