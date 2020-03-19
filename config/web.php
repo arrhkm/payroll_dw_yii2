@@ -12,6 +12,9 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'date_range'=>[
+            'class'=>'app\components\hkm\DateRange',
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'dREl40IT7xTUR7c1aqnQM7dz9pA0mX7n',

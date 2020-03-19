@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\hkm\HkmLib;
+use app\components\hkm\LogIntegration;
 use app\models\Absensi;
 use app\models\DownloadMachineForm;
 use app\models\HsHrEmpAbsensi;
@@ -15,6 +16,8 @@ use yii\filters\VerbFilter;
 
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
+use app\models\Employee;
+use app\models\Kartu;
 
 /**
  * MachineattController implements the CRUD actions for MachineAtt model.
@@ -157,12 +160,6 @@ class MachineattController extends Controller
         } 
         
         //var_dump($log_data);
-        //----------------
-        /*$lastlog = Attlog::find()->where(['id_attmachine'=>$id])
-                ->andWhere(['<>', 'status', 100])
-                ->andWhere(['<>', 'verified', 100])
-                ->max('date_log');
-        */
         
         $lastlog = HsHrEmpAbsensi::find()->where(['id_machine'=>$id])->max('timestamp');
         
@@ -171,8 +168,7 @@ class MachineattController extends Controller
         //Populate $log_data To Array $array_log with id_log Auto Increment
         foreach ($log_data['Row'] as $value){  
             if (strtotime($value['DateTime']) > strtotime($lastlog)){
-                array_push($array_log,[
-                    //'id'=>$first_id,
+                array_push($array_log,[                   
                     'id'=>$value['PIN'],
                     'timestamp'=>$value['DateTime'],
                     'verifikasi'=>$value['Verified'],
@@ -225,16 +221,108 @@ class MachineattController extends Controller
             $absensi = HsHrEmpAbsensi::find()->where(['Between', 'date(timestamp)', $model->start_date, $model->end_date])->all();
             $mylog = ArrayHelper::toArray($absensi);
 
-            $my_log = [];
+            $myLog = [];
             foreach ($absensi as $log){
-                array_push($my_log, ['id'=>$log->id, 'timestamp'=>$log->timestamp, 'verifikasi'=>$log->verifikasi, 'status'=>$log->status]);
+                array_push($myLog, [
+                    'id'=>$log->id, 
+                    'timestamp'=>$log->timestamp, 
+                    'verifikasi'=>$log->verifikasi, 
+                    'status'=>$log->status
+                ]);
             }
+
+            $list_day = Yii::$app->date_range->getListDay($model->start_date, $model->end_date);
+
+
+            //VARIABLE 
+            $emp_array=[];
+            $integrated_log = [];
+            $cards = array();
+
+
+            //Cari Employe yang punya kartu absensi  
+            
+              
+            foreach (Employee::find()->all() as $emp) {
+            //foreach (Employee::find()->where(['id'=>161])->all() as $emp) {
+            // $customer is a attcard object with the 'employee' relation populated
+                $_card = Kartu::find()->select(['no_kartu', 'emp_number_kartu'])->where(['emp_number_kartu'=>$emp->emp_id])->all();
+                array_push($emp_array, [                    
+                    'reg_number'=>$emp->emp_id,
+                    'id_employee'=>$emp->emp_id,
+                    'emp_name'=>$emp->emp_name,
+                    'cards'=>$_card,
+                ]);              
+               
+            }
+            //-------------end loop employe yang punya kartu -----------------
+
+            foreach ($emp_array as $myEmp){
+                //------------------------------------------
+                
+                foreach ($list_day as $listday){ 
+                    //echo "-----------------------------------------------------------------------------------------<br>";
+                    $iter = New LogIntegration($myLog, $myEmp['id_employee'], $myEmp['cards'], $listday);
+                    
+                    $iter->getLog();
+                    if ($iter->in!=NULL && $iter->out!=NULL){
+                        if ($iter->in===$iter->out){
+                            $in = date("Y-m-d H:i:s", $iter->in);                    
+                            $out=NULL;
+                            $jam_in = date("H:i:s", $iter->in);
+                            $jam_out=NULL;                            
+                           
+                        } else {
+                            $in = date("Y-m-d H:i:s", $iter->in);
+                            $out = date("Y-m-d H:i:s", $iter->out);
+                            $jam_in = date("H:i:s", $iter->in);
+                            $jam_out = date("H:i:s", $iter->out);                            
+                        }
+                      
+                        array_push ($integrated_log, [
+                            //'id_employee'=>$myEmp['id_employee'],
+                            'reg_number'=>$myEmp['reg_number'],
+                            'date_att'=>$listday,
+                            'punch_in'=>$in, 
+                            'punch_out'=>$out,
+                            'emp_name'=>$myEmp['emp_name'],
+                        ]);
+                    }                     
+                } 
+                //end of loop date range
+            }
+
+            /* MENYIMPAN DATA DARI ARRAY LOG YANG DIPEROLEH KE DATABASE */  
+            
+            $lastId=0;
+            //$lastId = \app\models\Absensi::getLastId();
+            foreach ($integrated_log as $iLog){                        
+                Yii::$app->db->createCommand()                
+                ->upsert('absensi', [                        
+                        'emp_id'=>$iLog['reg_number'],
+                        'tgl'=>$iLog['date_att'],
+                        'jam_in'=>$iLog['punch_in'],                        
+                        'jam_out'=>$iLog['punch_out'],
+                    ], [
+                        //'id'=>$lastId,
+                        'emp_id'=>$iLog['reg_number'],
+                        'tgl'=>$iLog['date_att'],
+                        'jam_in'=>$iLog['punch_in'],
+                        'jam_out'=>$iLog['punch_out'],
+                    ])->execute();
+                       
+                $lastId++;
+                
+            }
+            /* END MENYIMPAN DATA KE DATABASE*/
             
 
             return $this->render('integration',[
                 'model'=>$model,
                 'tgl'=>$tgl,
                 'absensi'=>$mylog,
+                'emp_array'=>$emp_array,
+                'integrated_log'=>$integrated_log,
             ]);
         }
 

@@ -32,6 +32,6 @@ use yii\widgets\ActiveForm;
 
 </div><!-- integration -->
 
-<?if (isset($absensi)){
-    var_dump($absensi);
+<?if (isset($integrated_log)){
+    var_dump($integrated_log);
 }
