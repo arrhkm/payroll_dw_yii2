@@ -67,6 +67,9 @@ AppAsset::register($this);
             ['label' => 'Attendance', 'url'=>['#'], 'items'=>[
                 ['label' => 'Machine Att', 'url'=>['/machineatt']],
                 ['label' => 'Integrasi', 'url'=>['/machineatt/integrasi']],
+                ['label'=>'Absensi', 'url'=>['/absensi/']],
+                ['label'=>'Set Pulang', 'url'=>['/absensi/setpulang']],
+
             ]],
             ['label' => 'Sales Order', 'url'=>['/salesorder/']],
            

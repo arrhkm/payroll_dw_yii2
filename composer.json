@@ -23,7 +23,8 @@
         "kartik-v/yii2-widget-datepicker": "^1.4",
         "moonlandsoft/yii2-phpexcel": "^2.0",
         "bluem/tree": "^3.1",
-        "kartik-v/yii2-widget-datetimepicker": "^1.4"
+        "kartik-v/yii2-widget-datetimepicker": "^1.4",
+        "kartik-v/yii2-widget-timepicker": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

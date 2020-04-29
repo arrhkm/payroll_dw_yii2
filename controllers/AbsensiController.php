@@ -5,6 +5,9 @@ namespace app\controllers;
 use Yii;
 use app\models\Absensi;
 use app\models\AbsensiSearch;
+use app\models\FormSetPulang;
+use yii\data\ArrayDataProvider;
+use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -127,5 +130,41 @@ class AbsensiController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionSetpulang(){
+        $model = New FormSetPulang();
+        if ($model->load(Yii::$app->request->post())){
+            $tgl = $model->date_set;
+            $jam_pulang = $model->jam_pulang;
+            Absensi::updateAll(['jam_out' => $model->jam_pulang], ['tgl'=>$model->date_set]);
+            $absensi = Absensi::find()->where(['tgl'=>$model->date_set]);
+            // get the total number of articles (but do not fetch the article data yet)
+            $count = $absensi->count();
+
+            // create a pagination object with the total count
+            $pagination = new Pagination(['totalCount' => $count]);
+
+            // limit the query using the pagination and retrieve the articles
+            $absensis = $absensi->offset($pagination->offset)
+                ->limit($pagination->limit)
+                ->all();
+
+            $provider = New ArrayDataProvider([
+                'allModels'=>$absensis,
+                'pagination'=>$pagination,
+            ]);
+            return $this->render('setpulang', [
+                'model'=>$model,
+                'provider'=>$provider,
+                
+            ]);
+        }
+        
+
+        return $this->render('setpulang', [
+            'model'=>$model,
+            
+        ]);
     }
 }

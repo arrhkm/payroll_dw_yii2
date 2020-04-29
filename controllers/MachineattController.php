@@ -297,7 +297,7 @@ class MachineattController extends Controller
             $lastId=0;
             //$lastId = \app\models\Absensi::getLastId();
             foreach ($integrated_log as $iLog){                        
-                Yii::$app->db->createCommand()                
+                /*Yii::$app->db->createCommand()                
                 ->upsert('absensi', [                        
                         'emp_id'=>$iLog['reg_number'],
                         'tgl'=>$iLog['date_att'],
@@ -312,7 +312,21 @@ class MachineattController extends Controller
                     ])->execute();
                        
                 $lastId++;
-                
+                */
+                $absen = Absensi::find()->where(['emp_id'=>$iLog['reg_number'], 'tgl'=>$iLog['date_att']]);
+                if ($absen->exists()){
+                    $updateAbsen = Absensi::findOne(['emp_id'=>$iLog['reg_number'], 'tgl'=>$iLog['date_att']]);
+                    $updateAbsen->jam_in = date("H:i:s", strtotime($iLog['punch_in']));
+                    $updateAbsen->jam_in = date("H:i:s", strtotime($iLog['punch_out']));
+                    $updateAbsen->save();
+                }else {
+                    $insertUbsen = New Absensi();
+                    $insertUbsen->emp_id = $iLog['reg_number'];
+                    $insertUbsen->tgl = $iLog['date_att'];
+                    $insertUbsen->jam_in = date("H:i:s",strtotime($iLog['punch_in']));
+                    $insertUbsen->jam_out = date("H:i:s", strtotime($iLog['punch_out']));
+                    $insertUbsen->save();
+                }
             }
             /* END MENYIMPAN DATA KE DATABASE*/
             
